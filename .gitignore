@@ -35,3 +35,13 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Forms
+python/formsA-D
+python/formsE-H
+python/formsI-Z
+python/words
+python/main_sequence.csv
+
+# Images
+public/img

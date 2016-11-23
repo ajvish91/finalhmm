@@ -23,31 +23,33 @@ def getTrainData(filepath):
                                delimiter=',')
         data = [data for data in data_iter]
     # change number of training and testing data
-    numTrainData = 11
-    numTestData = 2
+    numTrainData = 60000
+    numTestData = 5000
 
     np.random.shuffle(data)
 
     print "Wrote the data"
     train_data = data[0:numTrainData]
-    writeToFile(train_data, "train.txt")
+    # writeToFile(train_data, "train.txt")
     print len(train_data)
     x_train = []
     y_train = []
     for i in range(len(train_data)):
-        x_train.append(train_data[i][:-2])
+        sample_x = train_data[i][:-2]
+        x_train.append([int(x) for x in sample_x])
         y_train.append(train_data[i][-1])
 
     x_train = np.array(x_train)
     y_train = np.array(y_train)
     test_data = data[numTrainData + 1: numTrainData + numTestData]
-    writeToFile(test_data, "test.txt")
+    # writeToFile(test_data, "test.txt")
     # x_test = test_data[: -2]
     # y_test = test_data[-1:]
     # can return x_test, y_test also
     return x_train, y_train
 
 
+# Writes to file
 def writeToFile(data, fileName):
     textfile = open(fileName, 'w')
     for item in data:

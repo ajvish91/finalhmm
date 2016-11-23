@@ -6,10 +6,8 @@ import numpy as np
 # Gets the features from test.txt
 def features(sequence, i):
     split_sequence = sequence[i].split(" ")
-    # print sequence[i], i
     for ele in (split_sequence):
         yield ele
-    # yield sequence[i]
 
 
 def createTXT(words):
@@ -26,7 +24,6 @@ def createTXT(words):
 
 def trainHMM(X_train, y_train):
     # # # Extracts features from the datasets
-    # X_train, y_train, lengths_train = load_conll(data, features)
     # # Models it as an HMM
     clf = MultinomialHMM()
     print "y shape", y_train.shape[0]
@@ -35,20 +32,19 @@ def trainHMM(X_train, y_train):
         lengths_train.append(0)
 
     print lengths_train
-    clf.fit(X_train, y_train, [y_train.shape[0]])
+    clf.fit(X_train, y_train, [len(y_train)])
 
-    # print X_train, y_train
     return clf
 
 
 def testHMM(clf, X_test, y_test):
 
     # Validation after training
-    y_pred = clf.predict(X_test, [X_test.shape[0]])
+    y_pred = clf.predict(X_test, [len(y_test)])
 
     print y_pred
     # # Final score
-    print(whole_sequence_accuracy(y_test, y_pred, [X_test.shape[0]]))
+    print(whole_sequence_accuracy(y_test, y_pred, [len(y_test)]))
 
 
 def predictHMM(clf, X_predict):
@@ -56,5 +52,3 @@ def predictHMM(clf, X_predict):
     y_pred = clf.predict(X_predict, 1)
 
     print y_pred
-    # # # Final score
-    # print(whole_sequence_accuracy(y_test, y_pred, lengths_test))

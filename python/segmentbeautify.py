@@ -4,6 +4,7 @@ import conncomp
 import math
 
 
+# Extracts the lines from the images
 def extractLines(img, file):
     # Word extraction from machine-# printed area
     word_counter = 0
@@ -74,6 +75,7 @@ def extractLines(img, file):
             avg_line_spacing)
 
 
+# Extracts the words from the image
 def extractWords(img, file, word_counter):
     # Get horizontal profile of the line
     horizontal = conncomp.horizontalProfileProjection(img)
@@ -111,32 +113,20 @@ def extractWords(img, file, word_counter):
                                       non_zero_count[non_zero_counter - 1]:
                                       i - zero_count[zero_counter - 1]],
                                   word))
-                # cv2.imwrite("words/word_" + str(word_counter) +
-                #             [word_counter - 1] + file,
-                #             word)
-                # print "small word"
                 if len(word_array) == 0:
                     word_array.append(word / 255)
                 else:
                     word_array[-1] = word / 255
                 # print "not a word", [word_counter]
             else:
-                # print [word_counter]
-                # cv2.imwrite("words/word_" + str(word_counter) +
-                #             [word_counter] + file,
-                #             word)
                 word_array.append(word / 255)
                 word_counter += 1
-            # # print words.shape
-            # print "non_zero_counter ", non_zero_counter
             i += non_zero_count[non_zero_counter]
             non_zero_counter += 1
-    # cv2.namedWindow("word", cv2.WINDOW_NORMAL)
-    # cv2.imshow("word", test)
-    # print "This is my word array length for this line ", len(word_array)
     return word_counter, word_array
 
 
+# Beautifies the words
 def beautify(page, words, word_space, line_space, file, filepath):
     empty_page = np.ones(page.shape) * 255.0
     if(line_space is None or math.isnan(line_space) is True):
@@ -168,7 +158,7 @@ def beautify(page, words, word_space, line_space, file, filepath):
     # back = cv2.cvtColor(empty_page, cv2.COLOR_GRAY2BGR)
     cv2.imwrite(filepath + "/beautified_" + file,
                 empty_page)
-    cv2.namedWindow("beauty", cv2.WINDOW_NORMAL)
-    cv2.imshow("beauty", empty_page)
-    cv2.waitKey(10000)
+    # cv2.namedWindow("beauty", cv2.WINDOW_NORMAL)
+    # cv2.imshow("beauty", empty_page)
+    # cv2.waitKey(10000)
     return empty_page

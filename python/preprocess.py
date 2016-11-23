@@ -3,6 +3,7 @@ import numpy as np
 import math
 
 
+# Binarizes the image
 def binarize(img):
     blur = cv2.GaussianBlur(img, (5, 5), 0)
     ret, binarized_img = cv2.threshold(
@@ -10,10 +11,12 @@ def binarize(img):
     return binarized_img
 
 
+# Removes salt and pepper noise
 def removeSaltnPepperNoise(img):
     return cv2.medianBlur(img, 5)
 
 
+# Detects the edge of the structuring element
 def detectEdge(img):
     horizontalStructure = cv2.getStructuringElement(
         cv2.MORPH_RECT, (3, 3))
@@ -23,24 +26,29 @@ def detectEdge(img):
     return img
 
 
+# Histogram equalizes the image
 def equalize(img):
     return cv2.equalizeHist(img)
 
 
+# Thins the lines of the image
 def thinLines(img):
     return cv2.erode(img, np.ones((3, 3), np.uint8), iterations=3)
 
 
+# Sharpens the image
 def sharpen(img):
     frame = cv2.GaussianBlur(img, (5, 5), 3)
     img = cv2.addWeighted(img, 1.5, frame, -0.5, 0, frame)
     return frame
 
 
+# Resizes the image
 def resizeImage(img):
     return cv2.resize(img, (75 * img.shape[1] / img.shape[0], 75))
 
 
+# Sample the image
 def samplePage(img):
     page_width = img.shape[1]
     page_offset = 700
@@ -50,25 +58,11 @@ def samplePage(img):
     return page
 
 
+# Detect skew
 def detectSkew(img):
     not_img = cv2.bitwise_not(img)
     kernel = np.ones((5, 5), np.uint8)
     erosion = cv2.erode(not_img, kernel, iterations=1)
-# minLineLength = img.shape[1]  200
-# maxLineGap = 30
-# lines = cv2.HoughLinesP(not_img, 1, np.pi / 180,
-#                         100, minLineLength, maxLineGap)
-# if lines is not None:
-#     angle = 0
-#     for line in lines[0]:
-#         print line
-#         pt1 = (line[0], line[1])
-#         pt2 = (line[2], line[3])
-#         cv2.line(not_img, pt1, pt2, 125, 9)
-#         angle += math.atan2(float(line[3]) - line[1],
-#                             float(line[2]) - line[0])
-#     angle /= len(lines[0])
-#     print angle * np.pi / 180
     points_row, points_column = np.where(erosion == 255)
     points = zip(points_column, points_row)
     rect = cv2.minAreaRect(np.asarray(points))

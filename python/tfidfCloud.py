@@ -10,7 +10,7 @@ from collections import defaultdict
 import os
 import cv2
 
-
+# Gets the common forms in the document
 def get_common_surface_form(original_corpus, stemmer):
     counts = defaultdict(lambda: defaultdict(int))
     surface_forms = {}
@@ -23,13 +23,19 @@ def get_common_surface_form(original_corpus, stemmer):
     return surface_forms
 
 
+# Initialize variables
 category = sys.argv[1]
 stemmer = PorterStemmer()
 stemmed_corpus = []
 original_corpus = []
+print os.environ['PATH']
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 # print os.getcwd()
-# path = "./textForms1/" + (category).lower()
-path = "./textForms1/a"
+
+# Iterate through the documents
+path = "./textForms/" + (category).lower()
 for file in os.listdir(path):
     contents = open(path + "/" + file).read().lower()
     contents = ' '.join([word for word in contents.split()
