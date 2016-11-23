@@ -1,0 +1,96 @@
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title></title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container-fluid">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home" aria-expanded="true">Upload Document</a></li>
+                <li class=""><a data-toggle="tab" href="#menu1" aria-expanded="false">Beautify</a></li>
+                <li class=""><a data-toggle="tab" href="#menu2" aria-expanded="false">Recognize</a></li>
+                <li class=""><a data-toggle="tab" href="#menu3" aria-expanded="false">Summarize</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="error">
+                    <% if(typeof error !== "undefined") {%>
+                        <p style="color: red"><%=error %></p>
+                        <br/>
+                        <%}%>
+                </div>
+                <div id="home" class="tab-pane fade active in">
+                    <h3>Upload</h3>
+                    <form id="upload-doc" method="post" action="/" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="control-label">Select File</label>
+                            <input id="imgInp" name="doc" type="file" class="file-loading">
+                        </div>
+                        <div>
+                            <button id="extract" type="submit" class="btn btn-primary" disabled>Extract</button>
+                        </div>
+                        <% if(typeof filename !== "undefined") {%>
+                            <div><img id="beauty-blah" src=<%=filename%> alt="beautified image" height="600" width="400" /></div>
+                            <br/>
+                            <%}%>
+                                <% if(typeof filename === "undefined") {%>
+                                    <div><img id="blah" src="#" alt="your image" height="600" width="400" /></div>
+                                    <br/>
+                                    <%}%>
+                    </form>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <h3>Beautify</h3>
+                    <p>Beautifies text in the document</p>
+                    <% if(typeof beautified !== "undefined") {%>
+                        <div><img id="beauty-blah" src=<%=beautified%> alt="beautified image" height="600" width="400" /></div>
+                        <br/>
+                        <%}%>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <h3>Recognize</h3>
+                    <p>Recognizes Text in the document</p>
+                    <% if(typeof words !== "undefined") {%>
+                        <b><%=words %></b>
+                        <br/>
+                        <%}%>
+                </div>
+                <div id="menu3" class="tab-pane fade">
+                    <h3>Summarize</h3>
+                    <p>Summarizes the document</p>
+                    <form action="/cloud" method="post">
+                        <div class="form-group">
+                            <label for="sel1">Select list:</label>
+                            <select class="form-control" id="sel1" name="sel1">
+                                <option value="A">Press: reportage </option>
+                                <option value="B">Press: editorial </option>
+                                <option value="C">Press: reviews </option>
+                                <option value="D">Religion </option>
+                                <option value="E">Skills, trades and hobbies </option>
+                                <option value="F">Popular lore </option>
+                                <option value="G">Belles lettres, biography, essays </option>
+                                <option value="H">Miscellaneous (documents, reports, etc.) </option>
+                                <option value="J">Learned and scientific writings </option>
+                                <option value="K">General fiction </option>
+                                <option value="L">Mystery and detective fiction </option>
+                                <option value="M">Science fiction</option>
+                                <option value="N">Adventure and western fiction </option>
+                                <option value="P">Romance and love story </option>
+                                <option value="R">Humour </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Tag Cloud</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/front.js"></script>
+</body>
+
+</html>
